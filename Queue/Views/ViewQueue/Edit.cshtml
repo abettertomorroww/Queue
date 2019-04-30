@@ -1,0 +1,54 @@
+﻿@model Queue.Models.QueueModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+<hr />
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" }, placeholder = @Html.DisplayNameFor(m => m.UserName) })
+                @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Microwave, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Microwave, new { htmlAttributes = new { @class = "form-control" }, placeholder = @Html.DisplayNameFor(m => m.Microwave) })
+                @Html.ValidationMessageFor(model => model.Microwave, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Time, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Time, new { htmlAttributes = new { @class = "form-control" }, placeholder = @Html.DisplayNameFor(m => m.Time) })
+                @Html.ValidationMessageFor(model => model.Time, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.NumberQueue, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.NumberQueue, new { htmlAttributes = new { @class = "form-control" }, placeholder = @Html.DisplayNameFor(m => m.NumberQueue) })
+                @Html.ValidationMessageFor(model => model.NumberQueue, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-success" />
+                <a class="btn btn-sm btn-secondary" asp-action="Index">Backward</a>
+            </div>
+        </div>
+    </div>
+
+
+}
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

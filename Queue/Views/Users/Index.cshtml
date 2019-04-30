@@ -1,0 +1,30 @@
+﻿@model IEnumerable<DataLogicLayer.Models.UserData>
+@{
+    ViewBag.Title = "List of users";
+}
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">Add users</a>
+    <a class="btn btn-dark" asp-controller="Roles" asp-action="Index">View user roles</a>
+</p>
+
+<table class="table table-warning">
+    <thead class="thead-dark">
+        <tr><th>Email</th><th></th></tr>
+    </thead>
+    @foreach (var user in Model)
+    {
+        <tr>
+            <td>@user.Email</td>
+            <td>
+                <form asp-action="Delete" asp-route-id="@user.Id" method="post">
+                    <a class="btn btn-sm btn-primary" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
+                    <a class="btn btn-sm btn-primary" asp-action="ChangePassword" asp-route-id="@user.Id">Change Password</a>
+                    <button type="submit" class="btn btn-sm btn-danger">
+                        Delete
+                    </button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>

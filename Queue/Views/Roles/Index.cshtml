@@ -1,0 +1,23 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+
+<h2>List of roles</h2>
+<table class="table table-warning">
+    @foreach (var role in Model)
+    {
+        <tr>
+            <td>@role.Name</td>
+            @if (role.Name != "Admin")
+            {
+                <td>
+                    <form asp-action="Delete" asp-route-id="@role.Id" method="post">
+                        <button type="submit" class="btn btn-sm btn-danger">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            }
+        </tr>
+    }
+</table>
+<a class="btn btn-primary" asp-action="Create">Add role</a>
+<a class="btn btn-dark" asp-action="UserList">A list of users</a>
