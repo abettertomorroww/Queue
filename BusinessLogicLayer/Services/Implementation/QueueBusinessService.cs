@@ -5,6 +5,7 @@ using Mapster;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace BusinessLogicLayer.Services.Implementation
@@ -18,21 +19,15 @@ namespace BusinessLogicLayer.Services.Implementation
             this.queueService = queueService;
         }
 
+        public async Task<IList<QueueBusiness>> GetQueueAsync(string id)
+        {
+            var queueDto = await this.queueService.GetQueue(id);
+            return queueDto.Select(el => (el.Adapt<QueueBusiness>())).ToList();
+        }
+
         public Task DeleteQueueAsync(int id)
         {
             return this.queueService.DeleteAsync(id);
-        }
-
-        public async Task<IList<QueueBusiness>> GetQueue(string name)
-        {
-            var queueDto = await queueService.GetQueue(name);
-            var queues = new List<QueueBusiness>();
-            foreach (var el in queueDto)
-            {
-                var queue = el.Adapt<QueueBusiness>();
-                queues.Add(queue);
-            }
-            return queues;
         }
 
         public async Task<QueueBusiness> GetDetails(int id)
@@ -45,20 +40,24 @@ namespace BusinessLogicLayer.Services.Implementation
         {
             var queueDto = queue.Adapt<QueueData>();
             queueDto.Id = queue.Id;
-            await queueService.CreateQueue(queueDto);
+            await this.queueService.CreateQueue(queueDto);
         }
 
-        public IList<QueueBusiness> EqualQueue(string name, string operation, int? id)
+        public async Task UpdateQueue(QueueBusiness queue)
+        {
+            var queueDto = queue.Adapt<QueueData>();
+            queueDto.Id = queue.Id;
+            await this.queueService.UpdateQueue(queueDto);
+        }
+
+        public IList<QueueBusiness> EqualQueue(DateTime time, string operation, int? id)
         {
             IList<QueueData> queueDto = null;
 
             switch (operation)
             {
                 case "add":
-                    queueDto = this.queueService.EqualQueue(name);
-                    break;
-                case "update":
-                    queueDto = this.queueService.EqualQueueUpdate(name, (int)id);
+                    queueDto = this.queueService.EqualQueue(time);
                     break;
             }
 
@@ -70,5 +69,6 @@ namespace BusinessLogicLayer.Services.Implementation
             }
             return queues;
         }
+
     }
 }

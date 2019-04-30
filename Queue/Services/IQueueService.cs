@@ -12,11 +12,26 @@ namespace Queue.Services
     public interface IQueueService
     {
         /// <summary>
+        /// удаление очереди
+        /// </summary>
+        /// <param name="id">индификатор очереди</param>
+        /// <returns></returns>
+        Task DeleteQueueAsync(int id);
+
+        /// <summary>
         /// получаем список очередей 
         /// </summary>
-        /// <param name="name">идентификатор  пользователя</param>
+        /// <param name="id">идентификатор очереди</param>
         /// <returns></returns>
         Task<IEnumerable<QueueModel>> GetQueue(string id);
+
+        /// <summary>
+        /// получает очередь по индификатору
+        /// </summary>
+        /// <param name="id">индификатор очереди</param>
+        /// <returns></returns>
+        Task<QueueModel> GetDetails(int id);
+
 
         /// <summary>
         /// создает/изменяет очередь
@@ -26,27 +41,19 @@ namespace Queue.Services
         Task<int> CreateQueue(QueueModel queue);
 
         /// <summary>
+        /// редактирует очередь
+        /// </summary>
+        /// <param name="queue">модель очереди</param>
+        Task<int> UpdateQueue(QueueModel queue);
+
+        /// <summary>
         /// получаем список очередей с именем индетичным параметру
         /// </summary>
-        /// <param name="name">имя пользователя</param>
+        /// <param name="time">время брони очереди</param>
         /// <param name="operation">операция создания/изменения</param>
         /// <param name="id">индификатор очереди</param>
         /// <returns></returns>
-        IEnumerable<QueueModel> EqualQueue(string name, string operation, int? id);
-
-        /// <summary>
-        /// удаление очереди
-        /// </summary>
-        /// <param name="id">индификатор очереди</param>
-        /// <returns></returns>
-        Task DeleteQueueAsync(int id);
-
-        /// <summary>
-        /// получает очередь по индификатору
-        /// </summary>
-        /// <param name="id">индификатор очереди</param>
-        /// <returns></returns>
-        Task<QueueModel> GetDetails(int id);
+        IEnumerable<QueueModel> EqualQueue(DateTime time, string operation, int? id);
 
     }
 }

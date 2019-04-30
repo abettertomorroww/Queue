@@ -9,47 +9,47 @@ using System.Threading.Tasks;
 
 namespace Queue.Services.Implementation
 {
-    internal class QueueService : IQueueService
+    public class QueueService : IQueueService
     {
-        private readonly IQueueBusinessService queueBusiness;
+        private readonly IQueueBusinessService queueData;
 
-        public QueueService(IQueueBusinessService queueBusiness)
+        public QueueService(IQueueBusinessService queueData)
         {
-            this.queueBusiness = queueBusiness;
+            this.queueData = queueData;
         }
 
+        public Task DeleteQueueAsync(int id)
+        {
+            return this.queueData.DeleteQueueAsync(id);
+        }
 
         public async Task<IEnumerable<QueueModel>> GetQueue(string id)
         {
-            return (await this.queueBusiness.GetQueue(id)).Adapt<IEnumerable<QueueModel>>();
+            return (await this.queueData.GetQueueAsync(id)).Adapt<IEnumerable<QueueModel>>();
         }
 
+        public async Task<QueueModel> GetDetails(int id)
+        {
+            return (await queueData.GetDetails(id)).Adapt<QueueModel>();
+        }
 
         public async Task<int> CreateQueue(QueueModel queue)
         {
             var baseQueue = queue.Adapt<QueueBusiness>();
-            await this.queueBusiness.CreateQueue(baseQueue);
+            await this.queueData.CreateQueue(baseQueue);
             return baseQueue.Id;
         }
 
-
-        public IEnumerable<QueueModel> EqualQueue(string name, string operation, int? id)
+        public async Task<int> UpdateQueue(QueueModel queue)
         {
-            return (this.queueBusiness.EqualQueue(name, operation, id)).Adapt<IEnumerable<QueueModel>>();
+            var baseQueue = queue.Adapt<QueueBusiness>();
+            await this.queueData.UpdateQueue(baseQueue);
+            return baseQueue.Id;
         }
 
-
-        public Task DeleteQueueAsync(int id)
+        public IEnumerable<QueueModel> EqualQueue(DateTime time, string operation, int? id)
         {
-            return this.queueBusiness.DeleteQueueAsync(id);
+            return (this.queueData.EqualQueue(time, operation, id)).Adapt<IEnumerable<QueueModel>>();
         }
-
-
-        public async Task<QueueModel> GetDetails(int id)
-        {
-            return (await queueBusiness.GetDetails(id)).Adapt<QueueModel>();
-        }
-
- 
     }
 }

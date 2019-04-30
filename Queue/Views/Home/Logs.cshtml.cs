@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Queue.Views.ViewQueue
+namespace Queue.Views.Home
 {
-    public class IndexModel : PageModel
+    public class LogsModel : PageModel
     {
         public void OnGet()
         {

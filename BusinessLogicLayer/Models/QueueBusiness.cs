@@ -24,10 +24,17 @@ namespace BusinessLogicLayer.Models
         public string UserName { get; set; }
 
         /// <summary>
+        /// номер комнаты
+        /// </summary>
+        [Range(1, 2)]
+        [Display(Name = "The number the room")]
+        public int NumberRoom { get; set; }
+
+        /// <summary>
         /// номер микроволновки
         /// </summary>
         [Display(Name = "Microwave number")]
-        public string Microwave { get; set; }
+        public int Microwave { get; set; }
 
         /// <summary>
         /// время для использования 
@@ -35,10 +42,6 @@ namespace BusinessLogicLayer.Models
         [Display(Name = "Time of use")]
         public DateTime Time { get; set; }
 
-        /// <summary>
-        /// номер в очереди
-        /// </summary>
-        [Display(Name = "The number in the queue")]
-        public string NumberQueue { get; set; }
+        
     }
 }

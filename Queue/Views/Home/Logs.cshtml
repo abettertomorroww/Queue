@@ -1,0 +1,12 @@
+﻿@model Queue.ViewModels.LogsViewModel
+
+<h1>Logs</h1>
+<form asp-action="Logs" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <p>
+        Selected date: <input asp-for="Date" type="date">
+        <span asp-validation-for="Date" class="text-danger"></span>
+    </p>
+    <p><input type="submit" class="btn btn-primary" value="Select"></p>
+    <textarea id="area" readonly rows="20" class="bg-secondary text-light form-control">@Model.Text</textarea>
+</form>

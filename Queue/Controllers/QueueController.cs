@@ -17,12 +17,10 @@ namespace Queue.Controllers
     [Authorize]
     public class QueueController : Controller
     {
-        private readonly ILogger _logger;
         private readonly IQueueService _queue;
 
-        public QueueController(ILogger<QueueController> logger, IQueueService queue)
+        public QueueController(IQueueService queue)
         {
-            _logger = logger;
             _queue = queue;
         }
 
@@ -38,32 +36,24 @@ namespace Queue.Controllers
         }
 
         /// <summary>
-        /// получет данные о очереди
+        /// возвращаем метод получающий данные о очередях
         /// </summary>
-        /// <param name="id">индификатор очереди</param>
+        /// <param name="id">идентификатор очереди</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
+            
             var queue = await _queue.GetDetails((int)id);
             if (queue == null)
             {
-                return BadRequest();
+                return NotFound();
             }
-            if (queue.UserName != HttpContext.User.Identity.Name || queue.UserName == "Default")
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            return View(queue);
+            return View();
         }
 
         /// <summary>
-        /// получает страницу создания очереди
+        /// получаем страницу создания очеред
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -73,17 +63,17 @@ namespace Queue.Controllers
         }
 
         /// <summary>
-        /// возвращает метод создания очереди
+        /// возвращаем метод создания очереди
         /// </summary>
-        /// <param name="queue">очередь</param>
+        /// <param name="queue">модель очереди</param>
         /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(QueueModel queue)
         {
-            if (_queue.EqualQueue(queue.UserName, "add", null).Count() > 0)
+            if(_queue.EqualQueue(queue.Time, "add", null).Count() > 0)
             {
-                ModelState.AddModelError("Name", "An entry has already been added under this name");
+                ModelState.AddModelError("Time", "This time is already booked");
             }
 
             if (ModelState.IsValid)
@@ -95,58 +85,45 @@ namespace Queue.Controllers
         }
 
         /// <summary>
-        /// получает страницу редактирование очереди
+        /// получаем страницу редактирования очереди
         /// </summary>
-        /// <param name="id">индификатов очереди</param>
+        /// <param name="id">индификатор очереди</param>
         /// <returns></returns>
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
             var queue = await _queue.GetDetails((int)id);
-
             if (queue == null)
             {
-                return BadRequest();
-            }
-
-            if (queue.UserName != HttpContext.User.Identity.Name || queue.UserName == "Default")
-            {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
             return View(queue);
         }
 
         /// <summary>
-        /// возвращает метод редактирования очереди
+        /// возвращаем метод редактирования очереди
         /// </summary>
         /// <param name="id">индификатор очереди</param>
-        /// <param name="queue">очередь</param>
+        /// <param name="queue">модель очереди</param>
         /// <returns></returns>
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, QueueModel queue)
         {
-            if (id != queue.Id)
+            if (id!= queue.Id)
             {
                 return NotFound();
-            }
-
-            if (_queue.EqualQueue(queue.UserName, "update", queue.Id).Count() > 0)
-            {
-                ModelState.AddModelError("Name", "An entry has already been added under this name");
             }
 
             if (ModelState.IsValid)
             {
                 try
                 {
-                    await _queue.CreateQueue(queue);
+                    await _queue.UpdateQueue(queue);
                 }
-                catch (DbUpdateConcurrencyException)
+                catch
                 {
                     {
                         throw;
@@ -158,27 +135,18 @@ namespace Queue.Controllers
         }
 
         /// <summary>
-        /// получает страницу удаления очереди
+        /// получаем страницу удаления очереди
         /// </summary>
         /// <param name="id">индификатор очереди</param>
         /// <returns></returns>
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
             var queue = await _queue.GetDetails((int)id);
-
             if (queue == null)
             {
-                return BadRequest();
-            }
-
-            if (queue.UserName != HttpContext.User.Identity.Name || queue.UserName == "Default")
-            {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
             return View(queue);
         }
@@ -188,7 +156,8 @@ namespace Queue.Controllers
         /// </summary>
         /// <param name="id">индификатор очереди</param>
         /// <returns></returns>
-        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

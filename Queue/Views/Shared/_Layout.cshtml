@@ -37,12 +37,9 @@
                         <li class="nav-item">
                             <a class="nav-link text-primary" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="ViewQueue" asp-action="Index">Queue</a>
-                            </li>
-                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Queue" asp-action="Index">Queue</a>
+                        </li>
 
                         @if (User.IsInRole("Admin"))
                         {

@@ -19,46 +19,37 @@ namespace DataLogicLayer.Services
         Task<IList<QueueData>> GetQueue(string name);
 
         /// <summary>
-        /// удаление очереди из бд
+        /// создание очереди в БД
         /// </summary>
-        /// <param name="id">индификатор очереди</param>
-        /// <returns></returns>
-        Task DeleteAsync(int id);
-
-        /// <summary>
-        /// получаем персонаж по идентификатору
-        /// </summary>
-        /// <param name="id">идентификатор очереди</param>
-        /// <returns></returns>
-        Task<QueueData> GetDetails(int id);
-
-        /// <summary>
-        /// создание очереди в бд
-        /// </summary>
-        /// <param name="queue">очередь</param>
+        /// <param name="queue">модель очереди</param>
         /// <returns></returns>
         Task CreateQueue(QueueData queue);
 
         /// <summary>
-        /// обнавление очереди в бд
+        /// получаем очередь по индификатору
         /// </summary>
-        /// <param name="queue">очередь</param>
+        /// <param name="id">индификатор очереди</param>
         /// <returns></returns>
+        Task<QueueData> GetDetails(int id);
+
+        /// <summary>
+        /// изменяет очередь в БД
+        /// </summary>
+        /// <param name="records">очередь</param>
         Task UpdateQueue(QueueData queue);
 
         /// <summary>
         /// получаем список очередей с номером, идентичным параметру
         /// </summary>
-        /// <param name="number">номер очереди</param>
+        /// <param name="time">время брони очереди</param>
         /// <returns></returns>
-        IList<QueueData> EqualQueue(string number);
+        IList<QueueData> EqualQueue(DateTime time);
 
         /// <summary>
-        /// обновляем список очередей с номером, идентичным параметру
+        /// удаление очереди (БД)
         /// </summary>
-        /// <param name="number">номер очереди</param>
         /// <param name="id">индификатор очереди</param>
         /// <returns></returns>
-        IList<QueueData> EqualQueueUpdate(string number, int id);
+        Task DeleteAsync(int id);
     }
 }

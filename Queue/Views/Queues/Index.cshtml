@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Queue.Models.QueueModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Queue</h1>
+
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Найти по имени: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Вернуться к полному списку</a>
+        </p>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["UserNameSortParm"]">@Html.DisplayNameFor(model => model.UserName)</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NumberQueueParm"]">@Html.DisplayNameFor(model => model.NumberRoom)</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["MicrowaveParm"]">@Html.DisplayNameFor(model => model.Microwave)</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["TimeParm"]">@Html.DisplayNameFor(model => model.Time)</a>
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberRoom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Microwave)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Time)
+            </td>
+
+            <td>
+                <a class="btn btn-sm btn-success" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                <a class="btn btn-sm btn-info" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                <a class="btn btn-sm btn-danger" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Create">Create</a>
+</div>

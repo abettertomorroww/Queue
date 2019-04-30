@@ -20,7 +20,7 @@ namespace DataLogicLayer.Data
 
             var usersLogin = new QueueData[]
             {
-                new QueueData { UserName = "Alex",   Microwave = "1", Time =new DateTime(2019, 4, 25, 18, 30, 00), NumberQueue = "1"},
+                new QueueData { UserName = "Alex",NumberRoom = 1,   Microwave = 1, Time =new DateTime(2019, 4, 25, 18, 30, 00)},
                 
             };
             foreach (QueueData s in usersLogin)

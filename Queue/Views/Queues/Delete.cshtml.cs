@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace Queue.Views.ViewQueue
+namespace Queue.Views.Queues
 {
     public class DeleteModel : PageModel
     {
